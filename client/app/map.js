@@ -2,15 +2,23 @@ function initMap() {
 
   var mapDiv = document.getElementById('map');
   var map = new google.maps.Map(mapDiv, {
-    center: {lat: 44.540, lng: -78.546},
-    zoom: 8
+    center: {lat: 37.090, lng: -95.712},
+    zoom: 3
   });
   
-  var geo = navigator.geolocation;
   window.onload = function() {
           if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(function(position) {
-                  alert('it works');
+                  console.log(position.coords.latitude);
+                  var map = new google.maps.Map(mapDiv, {
+                    center: {
+                      lat: position.coords.latitude,
+                      lng: position.coords.longitude
+                     },
+                     zoom: 13
+                  });
+
+
               }, function(error) {
                   alert('Error occurred. Error code: ' + error.code);         
               },{timeout:5000});
@@ -18,5 +26,6 @@ function initMap() {
               alert('no geolocation support');
           }
       };
+
 
 };
