@@ -1,4 +1,4 @@
-function initMap() {
+  function initMap() {
 
   var mapDiv = document.getElementById('map');
   var map = new google.maps.Map(mapDiv, {
@@ -9,7 +9,6 @@ function initMap() {
   window.onload = function() {
           if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(function(position) {
-                  console.log(position.coords.latitude);
                   var map = new google.maps.Map(mapDiv, {
                     center: {
                       lat: position.coords.latitude,
@@ -18,14 +17,24 @@ function initMap() {
                      zoom: 13
                   });
 
+                  var myLatLang = {lat: position.coords.latitude, lng: position.coords.longitude}
+
+                  var marker = new google.maps.Marker({
+                    position: myLatLang,
+                    map: map,
+                    animation: google.maps.Animation.BOUNCE,
+                    // we can add a title if we'd like --> title: 'me'
+
+                  });
+
 
               }, function(error) {
-                  alert('Error occurred. Error code: ' + error.code);         
+                  console.log('Error occurred. Error code: ' + error.code);         
               },{timeout:5000});
           }else{
               alert('no geolocation support');
           }
       };
-
-
 };
+
+module.exports = map;
