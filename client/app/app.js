@@ -64,12 +64,12 @@ angular.module('MyPinsModule', [])
 
 angular.module('HomeModule', [])
   
-  .controller('HomeController', function($scope) {
+  .controller('HomeController', function($scope, httpRequests) {
       //WHEN WE ADD A PIN, WE WILL MAKE A POST REQUEST WITH THAT PIN'S
       //DATA TO OUR SERVER, WHICH WILL THEN STORE THAT INTO MONGODB
         //THEN, WE WILL REDIRECT TO MYPINS, AND ALL OF THE USER'S PINS
         //WILL BE DISPLAYED
-    $scope.myLatLang;
+    $scope.myLatLang = {};
 
     function initMap() {
       $scope.status = "Find Me";
@@ -103,19 +103,20 @@ angular.module('HomeModule', [])
         },{timeout:5000});
       } else {
           alert('no geolocation support');
-      }
-        
+      }        
     }
   
   //INITIALIZE THE MAP
   initMap();
-
-  $scope.addPin = function(){
-    console.log($scope.myLatLang);
+  
+  $scope.addPin = function() {
+    var pin = {};
+    pin.position = $scope.myLatLang;
+    pin.map = map;
+    pin.animation = google.maps.Animation.DROP;
+    console.log(pin);
+    httpRequests.addPin(pin);
   };
-  $scope.addPin();
-
- 
 });
 
 
