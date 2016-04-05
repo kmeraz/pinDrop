@@ -13,7 +13,14 @@ app.listen(8080);
 // });
 
 app.get('/api/pins', function(req, res, next) {
-  res.send('you are doing it');
+
+  //respond with all of the pins in the db
+});
+
+app.post('api/pins', function(req, res, next) {
+
+  //grab the pin info, and then send it to mongodb
+  
 });
 
 

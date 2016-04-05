@@ -65,42 +65,56 @@ angular.module('MyPinsModule', [])
 angular.module('HomeModule', [])
   
   .controller('HomeController', function($scope) {
-      function initMap() {
-        $scope.status = "Find Me";
-        var mapDiv = document.getElementById('map');
-        var map = new google.maps.Map(mapDiv, {
-          center: {lat: 37.090, lng: -95.712},
-          zoom: 3
-        });
-          // window.onload = function() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var map = new google.maps.Map(mapDiv, {
-              center: {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-               },
-               zoom: 13
-            });
+      //WHEN WE ADD A PIN, WE WILL MAKE A POST REQUEST WITH THAT PIN'S
+      //DATA TO OUR SERVER, WHICH WILL THEN STORE THAT INTO MONGODB
+        //THEN, WE WILL REDIRECT TO MYPINS, AND ALL OF THE USER'S PINS
+        //WILL BE DISPLAYED
+    $scope.myLatLang;
 
-            var myLatLang = {lat: position.coords.latitude, lng: position.coords.longitude}
+    function initMap() {
+      $scope.status = "Find Me";
+      var mapDiv = document.getElementById('map');
+      var map = new google.maps.Map(mapDiv, {
+        center: {lat: 37.090, lng: -95.712},
+        zoom: 3
+      });
+        // window.onload = function() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var map = new google.maps.Map(mapDiv, {
+            center: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+             },
+             zoom: 13
+          });
 
-            var marker = new google.maps.Marker({
-              position: myLatLang,
-              map: map,
-              animation: google.maps.Animation.DROP,
-              // we can add a title if we'd like --> title: 'me'
-             
-            });
-          }, function(error) {
-              console.log('Error occurred. Error code: ' + error.code);         
-          },{timeout:5000});
-        } else {
-            alert('no geolocation support');
-        }
+          var myLatLang = {lat: position.coords.latitude, lng: position.coords.longitude}
+          $scope.myLatLang = myLatLang;
+          var marker = new google.maps.Marker({
+            position: myLatLang,
+            map: map,
+            animation: google.maps.Animation.DROP,
+            // we can add a title if we'd like --> title: 'me'
+           
+          });
+        }, function(error) {
+            console.log('Error occurred. Error code: ' + error.code);         
+        },{timeout:5000});
+      } else {
+          alert('no geolocation support');
+      }
         
     }
+  
+  //INITIALIZE THE MAP
   initMap();
+
+  $scope.addPin = function(){
+    console.log($scope.myLatLang);
+  };
+  $scope.addPin();
+
  
 });
 
@@ -135,10 +149,12 @@ angular.module('myAppServices', [])
       });
     };
     //eventually add a function to grab a specific user's pins
+    
     var addPin = function(pin) {
       return $http({
         method: 'POST',
         url: '/api/pins',
+        data: pin
       });
     };
 
