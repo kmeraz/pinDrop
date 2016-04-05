@@ -1,28 +1,62 @@
-//ADD MORE DEPENDENCIES HERE IF REQUIRED
+angular.module('myApp', ['ngRoute', 'SigninModule', 'MyPinsModule', 'HomeModule', 'SignupModule'])
 
-angular.module('myApp', ['ngRoute'])
-
-.config(function($routeProvider, $httpProvider) {
+.config(function($routeProvider) {
   $routeProvider
     .when('/signin', {
-      templateUrl: 'app/auth/signin.html',
-      controller: 'SiginController'
+      templateUrl: 'app/signin.html',
+      controller: 'SigninController'
     })
-    .when('/siginup', {
-      templateUrl: 'app/auth/signup.html',
+    .when('/signup', {
+      templateUrl: 'app/signup.html',
       controller: 'SignupController'
     })
     .when('/myPins', {
       templateUrl: 'app/myPins.html',
       controller: 'MyPinsController'
     })
-    .when('/', {
-      templateUrl: 'app/index.html',
+    .when('/home', {
+      templateUrl: 'app/home.html',
       controller: 'HomeController'
     })
     .otherwise({
-      redirectTo: '/singin'
+      redirectTo: '/signin'
     });
+});
 
 
-})
+angular.module('SigninModule', [])
+
+  .controller('SigninController', function($scope) {
+  
+  $scope.data = {okay: 'boddy'};
+
+  });
+
+
+
+angular.module('MyPinsModule', [])
+
+  .controller('MyPinsController', function($scope) {
+
+  });
+
+
+
+angular.module('HomeModule', [])
+  
+  .controller('HomeController', function($scope) {
+
+  });
+
+
+
+angular.module('SignupModule', [])
+  .controller('SignupController', function($scope) {
+
+
+  });
+
+
+
+
+
