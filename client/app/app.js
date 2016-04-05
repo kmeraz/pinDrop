@@ -28,7 +28,7 @@ angular.module('SigninModule', [])
 
   .controller('SigninController', function($scope, $location) {
   
-    $scope.data = 5;
+    $scope.data;
     $scope.signIn = function() {
       if($scope.usernameText && $scope.passwordText) {
         //make a get request to the server, searching for a match 
@@ -60,49 +60,59 @@ angular.module('HomeModule', [])
   
   .controller('HomeController', function($scope) {
       function initMap() {
-
-      var mapDiv = document.getElementById('map');
-      var map = new google.maps.Map(mapDiv, {
-        center: {lat: 37.090, lng: -95.712},
-        zoom: 3
-      });
-        // window.onload = function() {
-      if (navigator.geolocation) {
+        $scope.status = "Find Me";
+        var mapDiv = document.getElementById('map');
+        var map = new google.maps.Map(mapDiv, {
+          center: {lat: 37.090, lng: -95.712},
+          zoom: 3
+        });
+          // window.onload = function() {
+        if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
-              var map = new google.maps.Map(mapDiv, {
-                center: {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude
-                 },
-                 zoom: 13
-              });
+            var map = new google.maps.Map(mapDiv, {
+              center: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+               },
+               zoom: 13
+            });
 
-              var myLatLang = {lat: position.coords.latitude, lng: position.coords.longitude}
+            var myLatLang = {lat: position.coords.latitude, lng: position.coords.longitude}
 
-              var marker = new google.maps.Marker({
-                position: myLatLang,
-                map: map,
-                animation: google.maps.Animation.DROP,
-                // we can add a title if we'd like --> title: 'me'
-
-              });
-
-
+            var marker = new google.maps.Marker({
+              position: myLatLang,
+              map: map,
+              animation: google.maps.Animation.DROP,
+              // we can add a title if we'd like --> title: 'me'
+             
+            });
           }, function(error) {
               console.log('Error occurred. Error code: ' + error.code);         
           },{timeout:5000});
-      } else {
-          alert('no geolocation support');
-      }
-   
-  }
+        } else {
+            alert('no geolocation support');
+        }
+        
+    }
   initMap();
  
 });
 
 
 angular.module('SignupModule', [])
-  .controller('SignupController', function($scope) {
+  .controller('SignupController', function($scope, $location) {
+    $scope.createAccount = function() {
+      if($scope.usernameText && $scope.passwordText) {
+        //make a get request to the server, searching for a match 
+        //of the username and pwd in the database..if it's a match, then
+        //send them to the home page
+        console.log('Username:', $scope.usernameText);
+        console.log('Password:', $scope.passwordText);
+        $location.path('/home');
+      } else {
+        alert('OOPS! You forgot to fill in both fields');
+      }
+    };
 
 
   });
