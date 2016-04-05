@@ -29,8 +29,11 @@ angular.module('SigninModule', [])
   .controller('SigninController', function($scope, $location) {
   
     $scope.data = 5;
-    $scope.createAccount = function() {
+    $scope.signIn = function() {
       if($scope.usernameText && $scope.passwordText) {
+        //make a get request to the server, searching for a match 
+        //of the username and pwd in the database..if it's a match, then
+        //send them to the home page
         console.log('Username:', $scope.usernameText);
         console.log('Password:', $scope.passwordText);
         $location.path('/home');
@@ -46,6 +49,8 @@ angular.module('SigninModule', [])
 angular.module('MyPinsModule', [])
 
   .controller('MyPinsController', function($scope) {
+    //here, make a get request to the api for all of the pins
+    // we will make this a 1 user application, for now
 
   });
 
@@ -77,7 +82,7 @@ angular.module('HomeModule', [])
               var marker = new google.maps.Marker({
                 position: myLatLang,
                 map: map,
-                animation: google.maps.Animation.BOUNCE,
+                animation: google.maps.Animation.DROP,
                 // we can add a title if we'd like --> title: 'me'
 
               });
@@ -89,11 +94,10 @@ angular.module('HomeModule', [])
       } else {
           alert('no geolocation support');
       }
-    // window.onload = function() {
-    //   console.log('the window has loaded!');
-    //   initMap();
+   
   }
   initMap();
+ 
 });
 
 
