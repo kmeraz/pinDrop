@@ -13,7 +13,8 @@ app.listen(8080);
 // });
 
 app.get('/api/pins', function(req, res, next) {
+  res.send('you are doing it');
+});
 
 
-})
 

@@ -10,7 +10,7 @@ angular.module('myApp', ['ngRoute', 'SigninModule', 'MyPinsModule', 'HomeModule'
       templateUrl: 'app/signup.html',
       controller: 'SignupController'
     })
-    .when('/myPins', {
+    .when('/mypins', {
       templateUrl: 'app/mypins.html',
       controller: 'MyPinsController'
     })
@@ -55,8 +55,7 @@ angular.module('MyPinsModule', [])
       httpRequests.getMyPins()
       .then(function(pins) {
         $scope.data.pins = pins;
-        console.log('my pins request fired!');
-      })
+      });
     };
     init();
   });
