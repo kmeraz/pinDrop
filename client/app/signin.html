@@ -1,1 +1,10 @@
-<div> This is where stuff to sign in will go</div>
+<div id='container'>
+<span>Register here!</span>
+<form name="registerForm" ng-submit="createAccount()" > 
+Enter your desired credentials:
+<br>
+<input type="text" placeholder="Username" ng-model="usernameText">
+<input type="text" placeholder="Password" ng-model="passwordText">
+<input type="submit" id="submit" value="Submit">
+</form>
+</div>
