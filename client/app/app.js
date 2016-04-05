@@ -70,6 +70,7 @@ angular.module('HomeModule', [])
         //THEN, WE WILL REDIRECT TO MYPINS, AND ALL OF THE USER'S PINS
         //WILL BE DISPLAYED
     $scope.myLatLang = {};
+    $scope.map;
 
     function initMap() {
       $scope.status = "Find Me";
@@ -88,7 +89,6 @@ angular.module('HomeModule', [])
              },
              zoom: 13
           });
-
           var myLatLang = {lat: position.coords.latitude, lng: position.coords.longitude}
           $scope.myLatLang = myLatLang;
           var marker = new google.maps.Marker({
@@ -110,10 +110,11 @@ angular.module('HomeModule', [])
   initMap();
   
   $scope.addPin = function() {
-    var pin = {};
-    pin.position = $scope.myLatLang;
-    pin.map = map;
-    pin.animation = google.maps.Animation.DROP;
+    var mapInfo = $scope.map;
+    var pin = {
+      position: $scope.myLatLang,
+      animation: google.maps.Animation.DROP
+    };
     console.log(pin);
     httpRequests.addPin(pin);
   };
