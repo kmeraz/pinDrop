@@ -1,4 +1,4 @@
-angular.module('myApp', ['ngRoute', 'SigninModule', 'MyPinsModule', 'HomeModule', 'SignupModule'])
+angular.module('myApp', ['ngRoute', 'SigninModule', 'MyPinsModule', 'HomeModule', 'SignupModule', 'myAppServices'])
 
 .config(function($routeProvider) {
   $routeProvider
@@ -11,7 +11,7 @@ angular.module('myApp', ['ngRoute', 'SigninModule', 'MyPinsModule', 'HomeModule'
       controller: 'SignupController'
     })
     .when('/myPins', {
-      templateUrl: 'app/myPins.html',
+      templateUrl: 'app/mypins.html',
       controller: 'MyPinsController'
     })
     .when('/home', {
@@ -45,13 +45,20 @@ angular.module('SigninModule', [])
   });
 
 
-
 angular.module('MyPinsModule', [])
 
-  .controller('MyPinsController', function($scope) {
+  .controller('MyPinsController', function($scope, httpRequests) {
     //here, make a get request to the api for all of the pins
     // we will make this a 1 user application, for now
-
+    $scope.data = {};
+    var init = function() {
+      httpRequests.getMyPins()
+      .then(function(pins) {
+        $scope.data.pins = pins;
+        console.log('my pins request fired!');
+      })
+    };
+    init();
   });
 
 
@@ -117,6 +124,30 @@ angular.module('SignupModule', [])
 
   });
 
+angular.module('myAppServices', [])
+  .factory('httpRequests', function($http) {
+    var getMyPins = function() {
+      return $http({
+        method: 'GET',
+        url: '/api/pins',
+      })
+      .then(function(res) {
+        return res.data;
+      });
+    };
+    //eventually add a function to grab a specific user's pins
+    var addPin = function(pin) {
+      return $http({
+        method: 'POST',
+        url: '/api/pins',
+      });
+    };
+
+    return {
+      getMyPins: getMyPins,
+      addPin: addPin
+    }
+  });
 
 
 

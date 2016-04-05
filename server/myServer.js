@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var path = require('path');
 var app = express();
 
-mongoose.connect = ('mongodb://localhost:27017');
+var db = mongoose.connect = ('mongodb://localhost:27017');
 
 app.use(express.static(__dirname + '/../client'));
 app.listen(8080);
@@ -12,4 +12,8 @@ app.listen(8080);
 //   res.sendFile(path.join(__dirname, '/../client/index.html'));
 // });
 
-module.exports = app;
+app.get('/api/pins', function(req, res, next) {
+
+
+})
+
