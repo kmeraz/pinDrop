@@ -51,62 +51,30 @@ angular.module('MyPinsModule', [])
     //here, make a get request to the api for all of the pins
     // we will make this a 1 user application, for now
     $scope.data = {};
+    $scope.status = "Find Me";
   
-    function initMap() {
-      $scope.status = "Find Me";
-      var mapDiv = document.getElementById('map');
-      var map = new google.maps.Map(mapDiv, {
-        center: {lat: 37.090, lng: -95.712},
-        zoom: 3
-      });
-        // window.onload = function() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var map = new google.maps.Map(mapDiv, {
-            center: {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-             },
-             zoom: 13
-          });
-          var myLatLang = {lat: position.coords.latitude, lng: position.coords.longitude}
-          $scope.myLatLang = myLatLang;
-          var marker = new google.maps.Marker({
-            position: myLatLang,
-            map: map,
-            animation: google.maps.Animation.DROP,
-            // we can add a title if we'd like --> title: 'me'
-           
-          });
-        }, function(error) {
-            console.log('Error occurred. Error code: ' + error.code);         
-        },{timeout:5000});
-      } else {
-          alert('no geolocation support');
-      }        
-    };
-    
-    //INITIALIZE THE MAP
-    initMap();
-
     var init = function() {
       httpRequests.getMyPins()
       .then(function(pins) {
-        console.log('let\'s see if my dummy data works', pins);
+        var mapDiv = document.getElementById('map');
+        var map = new google.maps.Map(mapDiv, {
+          center: {lat: 37.090, lng: -95.712},
+          zoom: 3
+        });
+
         for(var i=0; i < pins.length; i++) {
-          //console.log(pins[i].lat, pins[i].lng);
           var pin = pins[i];
           var marker = new google.maps.Marker({
             position: {
               lat: pin.lat, 
-              lng: pin.lng
+              lng: pin.lng,
             },
+            map: map,
             animation: google.maps.Animation.DROP,
           });
-        }
+        };
       });
     };
-
     init();
   });
 

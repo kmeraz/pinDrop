@@ -19,12 +19,11 @@ var Schema = mongoose.Schema;
 var markerSchema = new Schema({
   position: String,
   animation: Number
-
 });
 
 var Marker = mongoose.model('Marker', markerSchema);
 
-var myMarkers = [{lat: 37, lng: -123}, {lat: 38, lng: -122}, {lat: 37, lng:-122}];
+var myMarkers = [{lat: 37.770, lng: -122.446}, {lat: 38, lng: -122}, {lat: 37, lng:-122}];
 
 app.get('/api/pins', function(req, res, next) {
   //respond with all of the pins in the db
