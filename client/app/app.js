@@ -47,7 +47,7 @@ angular.module('SigninModule', [])
 
 angular.module('MyPinsModule', [])
 
-  .controller('MyPinsController', function($scope, httpRequests) {
+  .controller('MyPinsController', function($scope, httpRequests, $location) {
     //here, make a get request to the api for all of the pins
     // we will make this a 1 user application, for now
     $scope.data = {};
@@ -58,37 +58,60 @@ angular.module('MyPinsModule', [])
       .then(function(pins) {
         var mapDiv = document.getElementById('map');
         var map = new google.maps.Map(mapDiv, {
-          center: {lat: 37.090, lng: -95.712},
-          zoom: 3
+          center: {lat: 37.776, lng: -122.413},
+          zoom: 11
         });
-
-        for(var i=0; i < pins.length; i++) {
-          var pin = pins[i];
+        
+        var myPins = [];
+        for(var key in pins.position) {
           var marker = new google.maps.Marker({
             position: {
-              lat: pin.lat, 
-              lng: pin.lng,
+              lat: pins.position[key].lat,
+              lng: pins.position[key].lng
             },
             map: map,
             animation: google.maps.Animation.DROP,
           });
-        };
-      });
+        }
+        //THIS BLOCK OF CODE IS SO THAT DUMMY DATA A.K.A.
+        //DUMMY PINS CAN BE DISPLAYED ON THE MAP
+        var marker = new google.maps.Marker({
+          position: {
+            lat: 37.770,
+            lng: -122.447
+          },
+          map: map,
+          animation: google.maps.Animation.DROP,
+        });
+
+        var marker = new google.maps.Marker({
+          position: {
+            lat: 37.820,
+            lng: -122.369
+          },
+          map: map,
+          animation: google.maps.Animation.DROP,
+        });
+
+        });
     };
+
+
     init();
+
+    $scope.showHome = function() {
+      $location.path('/home');
+    }
   });
 
 
 
 angular.module('HomeModule', [])
   
-  .controller('HomeController', function($scope, httpRequests) {
-      //WHEN WE ADD A PIN, WE WILL MAKE A POST REQUEST WITH THAT PIN'S
-      //DATA TO OUR SERVER, WHICH WILL THEN STORE THAT INTO MONGODB
-        //THEN, WE WILL REDIRECT TO MYPINS, AND ALL OF THE USER'S PINS
-        //WILL BE DISPLAYED
+  .controller('HomeController', function($scope, httpRequests, $location) {
     $scope.myLatLang = {};
     $scope.map;
+    $scope.pinAdded = false;
 
     function initMap() {
       $scope.status = "Find Me";
@@ -128,6 +151,7 @@ angular.module('HomeModule', [])
   initMap();
   
   $scope.addPin = function() {
+    $scope.pinAdded = true;
     var mapInfo = $scope.map;
     var pin = {
       position: $scope.myLatLang,
@@ -135,6 +159,10 @@ angular.module('HomeModule', [])
     };
     console.log(pin);
     httpRequests.addPin(pin);
+  };
+
+  $scope.seePins = function() {
+    $location.path('/mypins');
   };
 });
 
@@ -165,14 +193,14 @@ angular.module('myAppServices', [])
         url: '/api/pins',
       })
       .then(function(res) {
-        return res.data;
         console.log('this is my resdata', res.data);
+        return res.data;
       });
     };
     //eventually add a function to grab a specific user's pins
     
     var addPin = function(pin) {
-      return $http({
+        return $http({
         method: 'POST',
         url: '/api/pins',
         data: pin

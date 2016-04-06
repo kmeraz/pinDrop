@@ -1,7 +1,11 @@
 <div>
   <p>{{status}}</p>
+  <button type="button" ng-click="seePins()"> See Current Pins</button>
   <button type="button" ng-click="addPin()"> Add Pin</button>
   
+  <span ng-show="pinAdded"> Pin Added!</span>
+
+
   <div id="map"></div>
 
 </div>
