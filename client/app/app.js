@@ -114,7 +114,6 @@ angular.module('HomeModule', [])
     $scope.pinAdded = false;
 
     function initMap() {
-      $scope.status = "Find Me";
       var mapDiv = document.getElementById('map');
       var map = new google.maps.Map(mapDiv, {
         center: {lat: 37.090, lng: -95.712},
