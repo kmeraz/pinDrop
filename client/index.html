@@ -2,22 +2,29 @@
 <html ng-app='myApp'>
   <head>
   <meta charset="utf-8" />
+  <!-- Latest compiled and minified CSS -->
 
     <style>
       #map {
         width: 500px;
         height: 400px;
       }
+  
     </style>
   </head>
   <body>
-    <h1>Whip Locator<h1>      
+    <div class="logoTitle" style="display:inline-block;">
+     <h1 style="display: inherit;">Whip Locator</h1>
 
+
+      <img class="logo" src="http://49.media.tumblr.com/1353b55379bc2b8d999567fa95dc629d/tumblr_nidv5kg3Is1s5fa4co1_500.gif" height="50" width="50">
+    </div>
     <div ng-view> </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-route.js"></script>
     <script src="./app/app.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js"></script>
+
   </body>
 </html>
